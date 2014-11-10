@@ -1,95 +1,155 @@
-Markdown Basics
-Markdown allows you to write using an easy-to-read, easy-to-write plain text format, which then converts to valid HTML for viewing on GitHub
+#Git User
+==============
 
-Basic writing
+##1. Git Configure
+```
+git config --global user.gmail "greenhat1016@gmail.com"
+git config --global user.name "GangLiao"
+git config --global color.ui true
+git config --global core.editor vim
+git config --global alias.co commit
+git config --global alias.lg "log --color --graph --all --pretty=format:'%Cred%h%Creset - %C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue) <%an>%Creset' --abbrev-commit --"
+```
 
-Paragraphs
+> test
 
-Paragraphs in Markdown are just one or more lines of consecutive text followed by one or more blank lines.
+##Modify Configure
 
-On July 2, an alien mothership entered Earth's orbit and deployed several dozen saucer-shaped "destroyer" spacecraft, each 15 miles (24 km) wide.
+ ```
+ nano .gitconfig
+ ```
 
-On July 3, the Black Knights, a squadron of Marine Corps F/A-18 Hornets, participated in an assault on a destroyer near the city of Los Angeles.
-Headings
+#配置
 
-You can create a heading by adding one or more # symbols before your heading text. The number of # you use will determine the size of the heading.
-
-# The largest heading (an <h1> tag)
-## The second largest heading (an <h2> tag)
-…
-###### The 6th largest heading (an <h6> tag)
-Blockquotes
-
-You can indicate blockquotes with a >.
-
-In the words of Abraham Lincoln:
-
-> Pardon my french
-Styling text
-
-You can make text bold or italic.
-
-*This text will be italic*
-**This text will be bold**
-Both bold and italic can use either a * or an _ around the text for styling. This allows you to combine both bold and italic if needed.
-
-**Everyone _must_ attend the meeting at 5 o'clock today.**
-Lists
-
-Unordered lists
-
-You can make an unordered list by preceding list items with either a * or a -.
-
-* Item
-* Item
-* Item
-
-
-- Item
-- Item
-- Item
-
-
-Ordered lists
-
-You can make an ordered list by preceding list items with a number.
-
-1. Item 1
-2. Item 2
-3. Item 3
-Nested lists
-
-You can create nested lists by indenting list items by two spaces.
-
-1. Item 1
-  1. A corollary to the above item.
-  2. Yet another point to consider.
-2. Item 2
-  * A corollary that does not need to be ordered.
-    * This is indented four spaces, because it's two spaces further than the item above.
-    * You might want to consider making a new list.
-3. Item 3
-Code formatting
-
-Inline formats
-
-Use single backticks (`) to format text in a special monospace format. Everything within the backticks appear as-is, with no other special formatting.
-
-Here's an idea: why don't we take `SuperiorProject` and turn it into `**Reasonable**Project`.
-Multiple lines
-
-You can use triple backticks (```) to format text as its own distinct block.
-
-Check out this neat program I wrote:
+##首先是配置帐号信息
 
 ```
-x = 0
-x = 2 + 2
-what is x
+git config --global user.name yanhaijing
+git config --global user.email yanhaijing@yeah.net
+git config --list#查看配置的信息
+git help config#获取帮助信息
 ```
-Links
+##配置自动换行（自动转换坑太大）
 
-You can create an inline link by wrapping link text in brackets ( [ ] ), and then wrapping the link in parenthesis ( ( ) ).
+```
+git config --global core.autocrlf input #提交到git是自动将换行符转换为lf
+```
+##配置密钥
+```
+ssh-keygen -t rsa -C yanhaijing@yeah.net #生成密钥
+ 
+ssh -T git@github.com #测试是否成功
+```
+##新建仓库
+```
+git init#初始化
+git status#获取状态
+git add file#.或*代表全部添加
+git commit -m "message"#此处注意乱码
+git remote add origin git@github.com:yanhaijing/test.git#添加源
+git push -u origin master#push同事设置默认跟踪分支
+```
+##从现有仓库克隆
+```
+git clone git://github.com/yanhaijing/data.js.git   
+git clone git://github.com/schacon/grit.git mypro#克隆到自定义文件夹
+```
+##本地
+```
+git add *#跟踪新文件
+ 
+rm *&git rm *#移除文件
+git rm -f *#移除文件
+git rm --cached *#取消跟踪
+git mv file_from file_to#重命名跟踪文件
+ 
+git log#查看提交记录
+ 
+git commit#提交更新
+git commit -m 'message'
+git commit -a#跳过使用暂存区域，把所有已经跟踪过的文件暂存起来一并提交
+git commit --amend#修改最后一次提交
+ 
+git reset HEAD *#取消已经暂存的文件
+ 
+git checkout -- file#取消对文件的修改（从暂存区去除file）
+git checkout branch|tag|commit -- file_name#从仓库取出file覆盖当前分支
+git checkout -- .#从暂存区去除文件覆盖工作区
+```
+##分支
+```
+git branch#列出本地分支
+git branch -r#列出远端分支
+git branch -a#列出所有分支
+git branch -v#查看各个分支最后一个提交对象的信息
+git branch --merge#查看已经合并到当前分支的分支
+git branch --no-merge#查看为合并到当前分支的分支
+ 
+git branch test#新建test分支
+git checkout test#切换到test分支
+git checkout -b test#新建+切换到test分支
+git checkout -b test dev#基于dev新建test分支，并切换
+ 
+git branch -d test#删除test分支
+git branch -D test#强制删除test分支
+ 
+git merge test#将test分支合并到当前分支
+git rebase master#将master分之上超前的提交，变基到当前分支
+```
+##远端
+```
+git fetch originname branchname#拉去远端上指定分支
+git merge originname branchname#合并远端上指定分支
+git push originname branchname#推送到远端上指定分支
+git push originname localbranch:serverbranch#推送到远端上指定分支
+ 
+git checkout -b test origin/dev#基于远端dev新建test分支
+ 
+git push origin :server#删除远端分支
+源
+```
 
-For example, to create a hyperlink to www.github.com, with a link text that says, Visit GitHub!, you'd write this in Markdown: [Visit GitHub!](www.github.com).
+git是一个分布式代码管理工具，所以可以支持多个仓库，在git里，服务器上的仓库在本地称之为remote。
+
+个人开发时，多源用的可能不多，但多源其实非常有用。
+
+```
+git remote add origin1 git@github.com:yanhaijing/data.js.git
+ 
+git remote#显示全部源
+git remote -v#显示全部源+详细信息
+ 
+git remote rename origin1 origin2#重命名
+ 
+git remote rm origin1#删除
+ 
+git remote show origin1#查看指定源的全部信息
+标签
+```
+当开发到一定阶段时，给程序打标签是非常棒的功能。
+
+```
+git tag#列出现有标签  
+ 
+git tag v0.1#新建标签
+git tag -a v0.1 -m 'my version 1.4'#新建带注释标签
+ 
+git checkout tagname#切换到标签
+ 
+git push origin v1.5#推送分支到源上
+git push origin --tags#一次性推送所有分支
+ 
+git tag -d v0.1#删除标签
+git push origin :refs/tags/v0.1#删除远程标签
+```
+#总结
+
+
+其实还有两个最有用的命令还未提到。
+
+```
+git help *#获取命令的帮助信息
+git status#获取当前的状态，非常有用，因为git会提示接下来的能做的事情
+```
+
 
